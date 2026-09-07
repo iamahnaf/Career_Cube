@@ -667,6 +667,43 @@ function StudentDetailView({ student, loading, error, onBack, onRetry }) {
   );
 }
 
+function AssessmentAdmin({ records, loading, error, onRetry, onEdit, onDelete }) {
+  const [search, setSearch] = useState("");
+  const filtered = records.filter((record) => `${record.title} ${record.category} ${record.difficulty} ${record.status}`.toLowerCase().includes(search.toLowerCase()));
+  return (
+    <div className="space-y-5">
+      <section className="glass flex flex-col gap-3 rounded-[24px] p-3 sm:flex-row">
+        <label className="relative flex-1"><Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={16} /><input value={search} onChange={(event) => setSearch(event.target.value)} className="input pl-11" placeholder="Search assessments..." /></label>
+        <button onClick={onRetry} className="btn-secondary"><RefreshCw size={15} /> Refresh</button>
+      </section>
+      <section className="panel p-5">
+        <div className="mb-5"><h2 className="text-lg font-extrabold">{records.length} assessments</h2><p className="text-xs text-muted">Only administrator-created records are shown.</p></div>
+        <ContentState loading={loading} error={error} empty={!filtered.length} emptyTitle="No assessments yet" emptyCopy="Create your first assessment, then add and publish questions inside it." onRetry={onRetry}>
+          <div className="table-shell overflow-x-auto">
+            <table className="w-full min-w-[960px] text-left text-xs">
+              <thead className="border-b border-ink/[0.07] bg-ink/[0.035] text-[10px] uppercase tracking-[.09em] text-muted"><tr>{["Assessment", "Category", "Difficulty", "Time", "Questions", "Attempts", "Avg. score", "Status", "Actions"].map((item) => <th className="px-4 py-3" key={item}>{item}</th>)}</tr></thead>
+              <tbody className="divide-y divide-ink/[0.06]">
+                {filtered.map((record) => (
+                  <tr key={record.id} className="hover:bg-white/60">
+                    <td className="max-w-[300px] px-4 py-4"><b className="block">{record.title}</b><small className="line-clamp-1 text-muted">{record.description || "No description"}</small></td>
+                    <td className="px-4 py-4 text-muted">{record.category}</td>
+                    <td className="px-4 py-4 text-muted">{record.difficulty}</td>
+                    <td className="px-4 py-4 text-muted">{record.time_limit_minutes} min</td>
+                    <td className="px-4 py-4 font-bold">{record.question_count}</td>
+                    <td className="px-4 py-4 text-muted">{record.attempt_count}</td>
+                    <td className="px-4 py-4 text-muted">{record.average_score == null ? "—" : `${record.average_score}%`}</td>
+                    <td className="px-4 py-4"><ContentStatus value={record.status} /></td>
+                    <td className="px-4 py-4"><div className="flex gap-1"><button onClick={() => onEdit(record)} className="btn-ghost min-h-8" aria-label="Edit assessment"><Pencil size={14} /></button><button onClick={() => onDelete(record)} className="btn-ghost min-h-8 text-coral" aria-label="Delete assessment"><Trash2 size={14} /></button></div></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </ContentState>
+      </section>
+    </div>
+  );
+}
 
 function QuestionsAdmin({ records, loading, error, onRetry, onEdit, onDelete }) {
   const [search, setSearch] = useState("");
