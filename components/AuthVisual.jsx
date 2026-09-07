@@ -1,6 +1,17 @@
 import { useTheme } from "../lib/theme";
 
-
+const artwork = {
+  student: {
+    light: "/careercube-auth-student-light-v1.jpg",
+    dark: "/careercube-auth-student-dark-v1.jpg",
+    alt: "Two students planning their careers together in the CareerCube studio",
+  },
+  admin: {
+    light: "/careercube-auth-admin-light-v1.jpg",
+    dark: "/careercube-auth-admin-dark-v1.jpg",
+    alt: "CareerCube administrators reviewing platform insights together",
+  },
+};
 
 export default function AuthVisual({ role = "student" }) {
   const { isDark } = useTheme();
