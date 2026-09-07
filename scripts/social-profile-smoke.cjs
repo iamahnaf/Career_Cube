@@ -23,11 +23,14 @@ for (const [field, definition] of Object.entries({
   telegram: "VARCHAR(32)",
 })) {
   assert.match(schema, new RegExp(`${field} ${definition.replace(/[()]/g, "\\$&")} NULL`), `${field} needs a base schema column`);
-  assert.match(profileSchema, new RegExp(`ADD COLUMN IF NOT EXISTS ${field}`), `${field} needs a production runtime migration`);
+  const escapedDefinition = definition.replace(/[()]/g, "\\$&");
+  assert.match(profileSchema, new RegExp(`\\["${field}", "${field} ${escapedDefinition} NULL AFTER`), `${field} needs a production runtime migration definition`);
   assert.match(setupDatabase, new RegExp(`ADD COLUMN IF NOT EXISTS ${field}`), `${field} needs a setup migration`);
   assert.match(authRoute, new RegExp(`p\\.${field}`), `${field} must be returned by the authenticated profile API`);
   assert.match(authRoute, new RegExp(`${field}=IF\\(\\?, VALUES\\(${field}\\), ${field}\\)`), `${field} updates must respect PATCH field presence`);
 }
+assert.match(profileSchema, /FROM information_schema\.columns/, "Profile migrations must inspect the live MySQL schema before adding columns");
+assert.match(profileSchema, /ALTER TABLE student_profiles ADD COLUMN \$\{definition\}/, "Missing profile columns must be added after the compatibility check");
 
 const patch = normalizeSocialProfilePatch({
   facebook_url: "facebook.com/careercube.student",
