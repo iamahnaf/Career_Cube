@@ -859,7 +859,11 @@ function JobsAdmin({ records, loading, error, onRetry, onEdit, onStatus, onDelet
   );
 }
 
-
+function DataGrid({ title, subtitle, columns, rows, notify }) {
+  const [search, setSearch] = useState("");
+  const filtered = rows.filter((row) => row.join(" ").toLowerCase().includes(search.toLowerCase()));
+  return <div className="space-y-5"><section className="glass flex flex-col gap-3 rounded-[24px] p-3 sm:flex-row"><label className="relative flex-1"><Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={16} /><input value={search} onChange={(e) => setSearch(e.target.value)} className="input pl-11" placeholder="Search records..." /></label><button className="btn-secondary"><Filter size={15} /> Filter</button><button onClick={() => notify("Data exported as CSV.")} className="btn-secondary"><Download size={15} /> Export</button></section><section className="panel p-5"><div className="mb-5"><h2 className="text-lg font-extrabold">{title}</h2><p className="text-xs text-muted">{subtitle}</p></div><div className="table-shell overflow-x-auto"><table className="w-full min-w-[980px] text-left"><thead className="border-b border-ink/[0.07] bg-ink/[0.035] text-[10px] uppercase tracking-[.09em] text-muted"><tr>{columns.map((item) => <th className="px-4 py-3" key={item}>{item}</th>)}</tr></thead><tbody className="divide-y divide-ink/[0.06]">{filtered.map((row, index) => <tr key={index} className="text-xs hover:bg-white/60">{row.map((cell, cIndex) => <td className={`max-w-[280px] px-4 py-4 ${cIndex === 0 ? "font-bold text-ink" : "text-muted"}`} key={cIndex}>{cIndex === row.length - 1 ? <span className={`rounded-full px-2 py-1 text-[10px] font-bold ${["Published","Live"].includes(cell) ? "bg-jade/10 text-jade" : cell === "Draft" ? "bg-ink/10 text-muted" : "bg-coral/10 text-coral"}`}>{cell}</span> : cell}</td>)}<td className="px-4 py-4"><div className="flex"><button onClick={() => notify("Record editor opened.")} className="btn-ghost min-h-8"><Pencil size={14} /></button><button className="btn-ghost min-h-8"><MoreHorizontal size={14} /></button></div></td></tr>)}</tbody></table></div></section></div>;
+}
 
 function ModerationPage({ items, setItems, notify }) {
   const resolve = (id, action) => { setItems((current) => current.filter((item) => item.id !== id)); notify(action === "remove" ? "Content removed and author notified." : "Report dismissed after review."); };
