@@ -33,16 +33,16 @@ export default function LandingPage() {
         <section className="landing-hero landing-container" aria-labelledby="landing-title">
           <div className="landing-hero-copy">
             <div className="landing-premium-copy">
-              <p className="landing-hero-kicker"><Sparkles size={14} /> Your career, with a clearer next step</p>
-              <h1 id="landing-title">Start where you are.<br /><em>Grow</em> where you want<br />to go.</h1>
-              <p className="landing-hero-description">CareerCube turns your skills, interests and ambitions into a focused plan—so every assessment, connection and opportunity feels more intentional.</p>
+              <p className="landing-hero-kicker"><Sparkles size={14} /> Career intelligence for students</p>
+              <h1 id="landing-title">Your career.<br /><em>Finally</em> in focus.</h1>
+              <p className="landing-hero-description">See the skills to build, opportunities worth chasing and people who can help you get there—all in one personal career space.</p>
               <div className="landing-hero-actions">
                 <Link to="/login/student?mode=register" className="landing-button landing-button-primary">Create your free workspace <ArrowUpRight size={18} /></Link>
                 <a href="#journey" className="landing-text-link">Explore the journey <ArrowDown size={16} /></a>
               </div>
               <div className="landing-hero-proof">
                 <div className="landing-proof-avatars" aria-hidden="true"><span>SA</span><span>MI</span><span>NK</span><span>+</span></div>
-                <p><strong>Built for real student journeys.</strong><span>From campus confidence to a career you can see.</span></p>
+                <p><strong>Built for real student journeys.</strong><span>From campus confidence to your next big move.</span></p>
               </div>
             </div>
             <p className="landing-eyebrow"><span />Career growth, made tangible</p>

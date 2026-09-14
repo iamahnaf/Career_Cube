@@ -624,3 +624,154 @@
   .landing-editorial .landing-principles > div:nth-child(2) { border-left: 0; }
   .landing-editorial .landing-platform { padding-top: 62px; }
 }
+
+/* High-contrast product direction: a decisive landing canvas with a pure-black dark mode. */
+.landing-editorial .landing-hero {
+  isolation: isolate;
+  min-height: 610px;
+  overflow: hidden;
+  padding: clamp(42px, 5vw, 72px);
+  border: 1px solid #243454;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 78% 18%, #294b9f 0, transparent 22rem),
+    radial-gradient(circle at 20% 100%, #192d63 0, transparent 27rem),
+    #0c1427;
+  box-shadow: 0 33px 70px -45px #172d65b3;
+  color: #f8fbff;
+}
+.landing-editorial .landing-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  opacity: .24;
+  background-image: linear-gradient(#ffffff0e 1px, transparent 1px), linear-gradient(90deg, #ffffff0e 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(90deg, #000, transparent 80%);
+}
+.landing-editorial .landing-premium-copy h1 { color: #fff; max-width: 590px; font-size: clamp(56px, 5.6vw, 82px); }
+.landing-editorial .landing-premium-copy h1 em { color: #9bb5ff; }
+.landing-editorial .landing-premium-copy .landing-hero-description { color: #c0c9df; }
+.landing-editorial .landing-hero-kicker { color: #cfdbff; border-color: #536ba8; background: #ffffff0c; box-shadow: none; }
+.landing-editorial .landing-premium-copy .landing-button-primary {
+  color: #0d1631;
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 16px 25px -15px #000a;
+}
+.landing-editorial .landing-premium-copy .landing-text-link { color: #eef3ff; }
+.landing-editorial .landing-premium-copy .landing-text-link:hover { color: #9bb5ff; }
+.landing-editorial .landing-hero-proof p { color: #bac5dd; }
+.landing-editorial .landing-hero-proof strong { color: #fff; }
+.landing-editorial .landing-proof-avatars span { border-color: #111c35; }
+.landing-editorial .landing-proof-avatars span:last-child { border-color: #111c35; background: #fff; color: #182243; }
+
+.landing-editorial .landing-hero-art-top { color: #aebddc; }
+.landing-editorial .landing-hero-art-top > span:last-child { color: #9fdeb8; }
+.landing-editorial .landing-premium-art .landing-photo-frame {
+  padding: 7px;
+  border-color: #ffffff34;
+  background: #ffffff12;
+  box-shadow: 0 34px 50px -34px #000e, inset 0 1px 0 #ffffff45;
+}
+.landing-editorial .landing-premium-art .landing-graduation-photo {
+  height: clamp(350px, 32vw, 470px);
+  border-radius: 23px 23px 8px 8px;
+  filter: saturate(.92) contrast(1.05) brightness(.9);
+}
+.landing-editorial .landing-premium-art .landing-photo-caption {
+  padding: 20px;
+  background: #080d1d;
+  color: #fff;
+}
+.landing-editorial .landing-premium-art .landing-photo-caption em { color: #9bb5ff; }
+.landing-editorial .landing-hero-scorecard {
+  right: -36px;
+  border-color: #ffffffc2;
+  background: #fff;
+  box-shadow: 0 24px 42px -29px #000b;
+}
+.landing-editorial .landing-score-icon { background: #e4ebff; color: #294fc9; }
+.landing-editorial .landing-hero-scorecard small,
+.landing-editorial .landing-hero-scorecard > div > span { color: #69748b; }
+.landing-editorial .landing-hero-scorecard strong,
+.landing-editorial .landing-score-ring { color: #14203a; }
+.landing-editorial .landing-score-ring { border-color: #3158d7; border-left-color: #cfdbff; }
+.landing-editorial .landing-hero-art-foot { color: #aebddc; }
+.landing-editorial .landing-hero-art-foot > span:first-child { color: #f5f8ff; }
+
+.landing-editorial .landing-principles {
+  margin-top: 0;
+  margin-bottom: 6px;
+  border-radius: 22px;
+  box-shadow: 0 20px 36px -31px #172d6552;
+}
+.landing-editorial .landing-principles > p { background: #0d1630; }
+.landing-editorial .landing-principles > div { background: #fff; }
+.landing-editorial .landing-principles > div:nth-child(3) .landing-principle-icon { background: #eaf7ee; }
+.landing-editorial .landing-principles > div:nth-child(4) .landing-principle-icon { background: #fff0e8; }
+
+:root[data-theme="dark"] .landing-editorial {
+  --lp-bg: #000;
+  --lp-surface: #000;
+  --lp-ink: #fff;
+  --lp-muted: #a7a7a7;
+  --lp-line: #252525;
+  --lp-blue: #9db5ff;
+  --lp-blue-soft: #10172a;
+  --lp-sage: #080808;
+  --lp-peach: #090909;
+  background: #000;
+}
+:root[data-theme="dark"] .landing-editorial .landing-header { background: #000e; border-bottom-color: #202020; }
+:root[data-theme="dark"] .landing-editorial .landing-brand .clay-brand-mark { background: #111; border-color: #303030; box-shadow: none; }
+:root[data-theme="dark"] .landing-editorial .landing-header-actions .landing-button { background: #fff; border-color: #fff; color: #000; }
+:root[data-theme="dark"] .landing-editorial .landing-hero {
+  border-color: #282828;
+  background: #000;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .landing-editorial .landing-premium-art .landing-photo-frame { border-color: #353535; background: #0b0b0b; }
+:root[data-theme="dark"] .landing-editorial .landing-premium-art .landing-photo-caption { background: #000; }
+:root[data-theme="dark"] .landing-editorial .landing-hero-scorecard { border-color: #333; background: #0b0b0b; box-shadow: none; }
+:root[data-theme="dark"] .landing-editorial .landing-score-icon { background: #10192e; color: #abc0ff; }
+:root[data-theme="dark"] .landing-editorial .landing-hero-scorecard strong,
+:root[data-theme="dark"] .landing-editorial .landing-score-ring { color: #fff; }
+:root[data-theme="dark"] .landing-editorial .landing-hero-scorecard small,
+:root[data-theme="dark"] .landing-editorial .landing-hero-scorecard > div > span { color: #aaa; }
+:root[data-theme="dark"] .landing-editorial .landing-principles { border-color: #252525; background: #000; box-shadow: none; }
+:root[data-theme="dark"] .landing-editorial .landing-principles > p,
+:root[data-theme="dark"] .landing-editorial .landing-principles > div { background: #000; }
+:root[data-theme="dark"] .landing-editorial .landing-principles > div { border-color: #252525; }
+:root[data-theme="dark"] .landing-editorial .landing-principle-icon { background: #111a30; color: #aabfff; }
+:root[data-theme="dark"] .landing-editorial .landing-principles > div:nth-child(3) .landing-principle-icon { background: #0f221a; color: #9fe0b7; }
+:root[data-theme="dark"] .landing-editorial .landing-principles > div:nth-child(4) .landing-principle-icon { background: #251810; color: #f1b18e; }
+:root[data-theme="dark"] .landing-editorial .landing-journey-section,
+:root[data-theme="dark"] .landing-editorial .landing-resources-section { background: #000; }
+:root[data-theme="dark"] .landing-editorial .landing-feature-match,
+:root[data-theme="dark"] .landing-editorial .landing-feature-skills,
+:root[data-theme="dark"] .landing-editorial .landing-feature-story { background: #090909; }
+:root[data-theme="dark"] .landing-editorial .landing-resource-library-card,
+:root[data-theme="dark"] .landing-editorial .landing-final-cta { background: #000; border-color: #292929; box-shadow: none; }
+:root[data-theme="dark"] .landing-editorial .landing-resource-library-card > span,
+:root[data-theme="dark"] .landing-editorial .landing-resource-library-card > p,
+:root[data-theme="dark"] .landing-editorial .landing-final-cta .landing-eyebrow,
+:root[data-theme="dark"] .landing-editorial .landing-cta-copy > p:not(.landing-eyebrow) { color: #aaa; }
+:root[data-theme="dark"] .landing-editorial .landing-final-cta h2 em { color: #9db5ff; }
+:root[data-theme="dark"] .landing-editorial .landing-footer { background: #000; }
+
+@media (hover: hover) {
+  .landing-editorial .landing-premium-copy .landing-button-primary:hover { color: #0d1631; background: #dce6ff; border-color: #dce6ff; box-shadow: 0 22px 34px -22px #000b; }
+}
+@media (max-width: 959px) {
+  .landing-editorial .landing-hero { min-height: 0; padding: clamp(30px, 6vw, 52px); }
+  .landing-editorial .landing-hero-scorecard { right: -17px; }
+}
+@media (max-width: 599px) {
+  .landing-editorial .landing-hero { border-radius: 24px; }
+  .landing-editorial .landing-premium-copy h1 { font-size: clamp(48px, 13vw, 66px); }
+  .landing-editorial .landing-hero-scorecard { right: -8px; }
+  .landing-editorial .landing-principles > div { background: var(--lp-surface); }
+  :root[data-theme="dark"] .landing-editorial .landing-principles > div { background: #000; }
+}
