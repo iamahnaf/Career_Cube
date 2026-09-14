@@ -56,17 +56,9 @@ export default function LandingPage() {
           </div>
           <div className="landing-hero-art">
             <div className="landing-premium-art">
-              <div className="landing-hero-art-top"><span>CAREER MAP / 01</span><span><i /> LIVE, PERSONALIZED</span></div>
               <figure className="landing-photo-frame">
                 <img className="landing-graduation-photo" src="/careercube-hero-graduation-light.jpg" width="1920" height="1280" fetchPriority="high" decoding="async" alt="Five university graduates sitting together on the campus lawn in their graduation gowns" />
-                <figcaption className="landing-photo-caption"><span>Your future deserves<br /><em>more than a guess.</em></span><span className="landing-photo-arrow" aria-hidden="true"><ArrowUpRight size={28} strokeWidth={1.5} /></span></figcaption>
               </figure>
-              <div className="landing-hero-scorecard">
-                <span className="landing-score-icon"><Target size={18} /></span>
-                <div><small>YOUR CAREER SIGNAL</small><strong>Skills + goals, in focus.</strong><span>Know what to build next.</span></div>
-                <span className="landing-score-ring">78<small>%</small></span>
-              </div>
-              <div className="landing-hero-art-foot"><span><Compass size={14} /> DISCOVER YOUR DIRECTION</span><span>SCROLL TO EXPLORE</span></div>
             </div>
             <div className="landing-photo-heading"><span>THE NEXT CHAPTER</span><span>BEGINS WITH YOU <ArrowUpRight size={13} /></span></div>
             <figure className="landing-photo-frame">
