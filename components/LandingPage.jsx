@@ -2,7 +2,7 @@ import { Link } from "../lib/router";
 import {
   ArrowDown, ArrowUpRight, BookOpen, BriefcaseBusiness, Check, CheckCheck, Compass,
   FileText, Flag, GraduationCap, MessageCircle, Plus, ShieldCheck,
-  Sparkles, Target, TrendingUp, Users,
+  Target, TrendingUp, Users,
 } from "lucide-react";
 import { PublicFooter, PublicHeader } from "./public/PublicChrome";
 import "../src/landing.css";
@@ -33,7 +33,6 @@ export default function LandingPage() {
         <section className="landing-hero landing-container" aria-labelledby="landing-title">
           <div className="landing-hero-copy">
             <div className="landing-premium-copy">
-              <p className="landing-hero-kicker"><Sparkles size={14} /> Career intelligence for students</p>
               <h1 id="landing-title">Your career.<br /><em>Finally</em> in focus.</h1>
               <p className="landing-hero-description">See the skills to build, opportunities worth chasing and people who can help you get there—all in one personal career space.</p>
               <div className="landing-hero-actions">
