@@ -1,141 +1,407 @@
-# CareerCube
+<div align="center">
+  <img src="public/careercube-mark-forward-v1.png" alt="CareerCube Logo" width="80" />
+  <h1>CareerCube</h1>
+  <p><strong>AI-powered career development platform for university students in Bangladesh</strong></p>
 
-CareerCube is a full-stack AI career-development platform for university students. The project includes a premium, responsive glassmorphism UI and separate Student and Admin experiences.
+  ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&style=flat-square)
+  ![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white&style=flat-square)
+  ![MySQL](https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white&style=flat-square)
+  ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white&style=flat-square)
+  ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white&style=flat-square)
+  ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+</div>
 
-## Technology
+---
 
-- Frontend: React 19, Vite 7, Tailwind CSS, Lucide icons
-- Backend: Node.js, Express, JWT authentication, bcrypt, MySQL2
-- Data: MySQL 8.4 with normalized schema and seed data
-- AI: Gemini API adaptive skill assessments plus Python 3.12+/FastAPI job matching, career-readiness scoring, skill-gap analytics, and cover-letter generation
-- Delivery: Docker Compose and ChatGPT Sites configuration
+CareerCube is a full-stack, AI-enhanced career platform built specifically for university students in Bangladesh. It bridges the gap between campus and career — offering personalized job matching, AI-generated cover letters, adaptive skill assessments, curated learning resources, and a peer community — all wrapped in a premium dark-mode interface.
 
-## Included experiences
+---
 
-- Landing page and separate Student/Admin sign-in
-- Student dashboard, personalized jobs, application tracking, AI cover letters, Resume/Career Vault, assessments, analytics, learning, community, events, achievements, and profile management
-- Admin overview, user management, assessments, question bank, resources, events, jobs, community moderation, application funnel, performance monitoring, and system settings
-- Responsive mobile navigation, modals, filters, search, quiz state, reports, CRUD interactions, file selectors, toast feedback, and print-to-PDF resume export
+## 📸 Screenshots
 
-## Quick start with Docker
+### Student Dashboard
+![Student Dashboard](public/readme-student-dashboard.jpg)
+*Career readiness score, matched jobs, application tracking and learning progress at a glance.*
+
+### Learning Resources
+![Learning Resources](public/readme-learning-resources.jpg)
+*12 curated courses and guides linking to real YouTube tutorials and authoritative blogs, with progress tracking.*
+
+### Admin Panel
+![Admin Dashboard](public/readme-admin-dashboard.jpg)
+*Full administrative oversight — user management, assessments, job publishing, application funnel, and analytics.*
+
+### Authentication
+<table>
+  <tr>
+    <td><img src="public/careercube-auth-student-dark-v1.jpg" alt="Student Login" /></td>
+    <td><img src="public/careercube-auth-admin-dark-v1.jpg" alt="Admin Login" /></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Student sign-in</em></td>
+    <td align="center"><em>Admin sign-in</em></td>
+  </tr>
+</table>
+
+---
+
+## ✨ Features
+
+### 🎓 Student Experience
+| Feature | Description |
+|---|---|
+| **Personalized Dashboard** | Career readiness score, job matches, application count, and learning progress |
+| **AI Job Matching** | Verified Bangladesh + remote jobs scored against your profile and skills |
+| **Application Tracker** | Kanban-style pipeline from saved → applied → shortlisted → offer |
+| **AI Cover Letters** | Gemini-powered cover letters generated from your resume and the job description |
+| **Resume / Career Vault** | Upload, preview, and manage CV versions. Print-to-PDF export |
+| **Learning Resources** | 12 curated courses/guides with real YouTube videos, progress tracking, and module curriculum |
+| **Adaptive Assessments** | 10-level AI-generated quiz journeys tailored to your degree and target role |
+| **Community** | Peer posts, likes, comments, and content reporting moderated by admins |
+| **Connections** | Student networking with private messaging inbox |
+| **Events** | Register for career fairs, workshops, and live sessions |
+| **Analytics** | Weekly readiness trends, skill-gap charts, and assessment history |
+| **Achievements** | Gamified milestones — Profile Pioneer, Skill Sprint, Interview Ready, and more |
+
+### 🛠️ Admin Experience
+| Feature | Description |
+|---|---|
+| **User Management** | View, activate, and manage student accounts |
+| **Assessment Builder** | Create assessments with question banks and difficulty levels |
+| **Resource Manager** | Publish learning resources with URLs, thumbnails, and difficulty tags |
+| **Job Publisher** | Post internal and verified external job opportunities |
+| **Events Manager** | Create and manage events with capacity controls |
+| **Application Funnel** | Review all student applications and update statuses |
+| **Community Moderation** | Handle reported posts and manage community health |
+| **Performance Monitoring** | Platform-wide analytics and engagement metrics |
+| **System Settings** | Control platform configuration and admin accounts |
+
+---
+
+## 🏗️ Tech Stack
+
+```
+Frontend        React 19, Vite 7, Tailwind CSS 3, Lucide Icons
+Backend         Node.js 20+, Express 5, JWT, bcrypt, MySQL2
+Database        MySQL 8.4 — normalized schema, seed data, migrations
+AI              Google Gemini API (adaptive assessments, cover letters)
+                Python 3.12 / FastAPI (job matching, skill-gap scoring)
+Infrastructure  Docker Compose, Nginx, Vercel (serverless functions)
+Email           Nodemailer + Gmail App Password / Resend
+```
+
+---
+
+## 🚀 Quick Start (Docker)
+
+The fastest way to run everything — frontend, API, AI service, and MySQL:
 
 ```bash
+git clone https://github.com/iamahnaf/Career_Cube.git
+cd Career_Cube
 docker compose up --build
 ```
 
-Open:
-
-- Web: `http://localhost:3000`
-- Express API: `http://localhost:4000/api/health`
-- Python AI docs: `http://localhost:8000/docs`
-- MySQL: `localhost:3306`
+| Service | URL |
+|---|---|
+| Web (React) | http://localhost:3000 |
+| Express API | http://localhost:4000/api/health |
+| Python AI Docs | http://localhost:8000/docs |
+| MySQL | localhost:3306 |
 
 The first MySQL startup automatically applies `database/schema.sql` and `database/seed.sql`.
 
-## Manual development
+---
+
+## 💻 Manual Development Setup
+
+### Prerequisites
+- Node.js ≥ 20
+- MySQL 8.4 (e.g. XAMPP, local install)
+- Python 3.12+ (for AI service, optional)
+
+### 1 — Clone & Install
 
 ```bash
+git clone https://github.com/iamahnaf/Career_Cube.git
+cd Career_Cube
 npm install
+```
+
+### 2 — Configure Environment
+
+```bash
+# Windows
 copy .env.example .env
-npm run dev:all
+
+# macOS / Linux
+cp .env.example .env
 ```
 
-Run the Python service in another terminal:
+Open `.env` and fill in your values (see [Environment Variables](#environment-variables) below).
+
+### 3 — Create the Database
 
 ```bash
-python -m pip install -r ai-service/requirements.txt
-python -m uvicorn main:app --app-dir ai-service --reload --port 8000
+# Apply schema
+mysql -u root careerforge < database/schema.sql
+
+# Apply seed data
+mysql -u root careerforge < database/seed.sql
+
+# Seed real learning resources
+mysql -u root careerforge < database/seed_learning_resources.sql
 ```
 
-MySQL must be available using the connection settings in `.env`.
-
-## Gemini adaptive skill assessments
-
-Student skill journeys contain 10 progressively harder levels with 6 personalized
-questions per level. Before starting, students must save their university, degree,
-graduation year, target role, location and at least one career interest. Only the
-degree, target role and career interests are sent to Gemini; account identity and
-contact details are not included in the generation prompt.
-
-Add the API key only to the server environment:
-
-```bash
-GEMINI_API_KEY=your-private-key
-GEMINI_MODEL=gemini-3.6-flash
-```
-
-Never use a `VITE_` prefix for this key or commit it to the repository.
-
-## Verified Bangladesh jobs
-
-Administrators can publish verified external opportunities by entering the
-employer's official career-page URL or an authorized partner link. CareerCube
-will score those roles with the same privacy-preserving matching logic, then
-opens the original source for the student to apply. No scraping is used and
-external applications are deliberately not stored as CareerCube applications.
-
-### Student email verification
-
-Student signup uses a two-step email verification flow. The server sends a
-six-digit code, stores only its HMAC hash, expires it after 10 minutes and
-creates the student account only after a successful verification.
-
-Without buying a domain, Gmail can deliver the codes using a Google App
-Password. Enable 2-Step Verification on the sender account and add these
-server-only environment variables:
-
-```bash
-EMAIL_PROVIDER=gmail
-GMAIL_USER=your-email@gmail.com
-GMAIL_APP_PASSWORD=your-16-character-google-app-password
-EMAIL_FROM=CareerCube <your-email@gmail.com>
-EMAIL_VERIFICATION_SECRET=your-independent-long-random-secret
-```
-
-`EMAIL_PROVIDER=resend` with `RESEND_API_KEY` and a verified `EMAIL_FROM`
-domain remains supported as an alternative. For local development,
-`EMAIL_DELIVERY_MODE=console` prints the code only in the API terminal when no
-provider is configured. Hosted production never permits the console fallback.
-Never expose any of these values with a `VITE_` prefix.
-
-## Authentication setup
-
-No account credentials are committed or prefilled. Students create an account and
-then sign in with their own email and password. Production authentication requires
-the Express API and MySQL connection configured through environment variables.
-
-Create the private administrator after applying the database schema:
+### 4 — Create Admin Account
 
 ```bash
 set ADMIN_NAME=Your Name
-set ADMIN_EMAIL=your-private-admin@example.com
+set ADMIN_EMAIL=admin@yourdomain.com
 set ADMIN_PASSWORD=use-a-long-private-password
 npm run admin:create
 ```
 
-Use the equivalent environment-variable syntax for your shell. Never commit the
-real administrator values.
+### 5 — Create a Student Account
 
-For Vercel production, connect a TiDB Cloud cluster to the project so the
-`TIDB_*` connection variables are injected, add a long random `JWT_SECRET`, and
-then initialize the remote database:
+```bash
+node scripts/create-student.cjs
+```
+
+### 6 — Run the Dev Server
+
+```bash
+npm run dev:all
+```
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| API | http://localhost:4000 |
+
+### 7 — Run AI Service (Optional)
+
+```bash
+pip install -r ai-service/requirements.txt
+uvicorn main:app --app-dir ai-service --reload --port 8000
+```
+
+---
+
+## 🔐 Environment Variables
+
+Copy `.env.example` to `.env` and fill in the following:
+
+```bash
+# Server
+PORT=4000
+JWT_SECRET=replace-with-a-long-random-string
+
+# MySQL
+MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=
+MYSQL_DATABASE=careerforge
+MYSQL_SSL=false
+
+# Admin bootstrap (used once, then remove)
+ADMIN_NAME=
+ADMIN_EMAIL=
+ADMIN_PASSWORD=
+
+# Google Gemini AI (server-only, never use VITE_ prefix)
+GEMINI_API_KEY=replace-with-your-gemini-api-key
+GEMINI_MODEL=gemini-3.6-flash
+
+# Email — Gmail App Password
+EMAIL_PROVIDER=gmail
+GMAIL_USER=your-email@gmail.com
+GMAIL_APP_PASSWORD=your-16-char-app-password
+EMAIL_FROM=CareerCube <your-email@gmail.com>
+EMAIL_VERIFICATION_SECRET=replace-with-a-long-random-secret
+
+# Email — Resend (alternative)
+RESEND_API_KEY=
+
+# Local dev: print codes to console instead of sending email
+EMAIL_DELIVERY_MODE=console
+```
+
+> **Security:** Never commit real values. Never prefix secrets with `VITE_` — that exposes them to the browser bundle.
+
+---
+
+## 🗄️ Database Schema
+
+The schema lives in [`database/schema.sql`](database/schema.sql) and covers:
+
+```
+users                     Core accounts (student / admin)
+student_profiles          University, degree, target role, bio
+jobs / external_job_*     Internal and external job listings
+applications              Student applications with status pipeline
+learning_resources        Curated courses, videos, guides
+resource_progress         Per-student learning progress
+assessments / questions   Adaptive quiz system
+assessment_attempts       Student quiz history and scores
+community_posts           Peer posts, likes, comments, reports
+student_connections       Connection graph and private messages
+events / event_reg*       Career events and seat management
+achievements              Gamified milestones
+```
+
+---
+
+## 🤖 AI Features
+
+### Adaptive Skill Assessments (Gemini)
+Students unlock 10 progressively harder quiz levels. Before starting, they must complete their profile (university, degree, graduation year, target role, career interests). Only the **degree, target role, and career interests** are sent to Gemini — account identity and contact details are never included in the generation prompt.
+
+### Cover Letter Generation
+One-click AI cover letters tailored to a specific job posting, generated from the student's saved resume content via the Gemini API.
+
+### Python AI Service
+A FastAPI microservice handles:
+- Job–profile compatibility scoring
+- Skill gap detection
+- Career readiness calculation
+- Resume profile extraction
+
+---
+
+## 🎓 Student Email Verification
+
+Signup uses a **two-step email verification flow**:
+1. Server sends a 6-digit code, stores only its HMAC hash
+2. Code expires after 10 minutes
+3. Student account is created only after successful verification
+
+For local dev without a domain, use a **Gmail App Password**:
+1. Enable 2-Step Verification on your Gmail account
+2. Generate an App Password under Security → App passwords
+3. Set `EMAIL_PROVIDER=gmail` and fill `GMAIL_USER` + `GMAIL_APP_PASSWORD`
+
+For production, use [Resend](https://resend.com) with a verified domain.
+
+---
+
+## 📚 Learning Resources
+
+CareerCube ships with **12 curated real resources** linking to YouTube videos and authoritative blogs:
+
+| # | Title | Type | Source |
+|---|---|---|---|
+| 1 | SQL for Product Decisions | Video | YouTube |
+| 2 | Write an ATS-ready Resume | Video | YouTube |
+| 3 | Interview Stories that Stick | Video | YouTube |
+| 4 | Product Analytics Field Guide | Blog | Mixpanel |
+| 5 | React Patterns for Real Teams | Video | YouTube |
+| 6 | Negotiating Your First Offer | Video | YouTube |
+| 7 | System Design Interview Crash Course | Video | YouTube |
+| 8 | Git & GitHub Workflows for Teams | Video | YouTube |
+| 9 | Data Structures & Algorithms Roadmap | Video | YouTube |
+| 10 | LinkedIn Profile Optimization Guide | Article | LinkedIn |
+| 11 | Product Management Fundamentals | Video | YouTube |
+| 12 | Freelancing & Remote Work Starter Kit | Article | HubSpot |
+
+---
+
+## 🧪 Verification Commands
+
+```bash
+# Build frontend
+npm run build
+
+# Check server syntax
+node --check server/src/app.js
+
+# Adaptive assessment smoke test
+npm run test:adaptive-assessment
+
+# Security audit (production deps only)
+npm audit --omit=dev
+
+# Python checks
+python -m py_compile ai-service/main.py
+python -m pip check
+```
+
+---
+
+## 🚢 Deploying to Vercel
+
+1. Connect a **TiDB Cloud** cluster — the integration automatically injects `TIDB_*` environment variables
+2. Add a long random `JWT_SECRET` in Vercel's environment settings
+3. Run migrations on the remote database:
 
 ```bash
 npm run db:setup
 npm run admin:create
 ```
 
-The Vercel function in `api/index.js` serves the Express API on the same origin
-as the frontend.
+The Vercel serverless function in [`api/index.js`](api/index.js) serves the Express API on the same origin as the React frontend.
 
-## Verification commands
+---
 
-```bash
-npm run build
-npm run test:adaptive-assessment
-npm run test:adaptive-ui
-npm audit --omit=dev
-node --check server/src/app.js
-python -m py_compile ai-service/main.py
-python -m pip check
+## 📁 Project Structure
+
 ```
+Career_Cube/
+├── api/                    # Vercel serverless entry point
+├── ai-service/             # Python FastAPI microservice
+├── components/
+│   ├── admin/              # Admin workspace components
+│   ├── public/             # Landing page components
+│   └── student/            # Student dashboard components
+├── database/
+│   ├── schema.sql          # Full MySQL schema
+│   ├── seed.sql            # Initial seed data
+│   └── seed_learning_resources.sql  # Learning resources with real URLs
+├── lib/
+│   ├── api.js              # Frontend API client
+│   ├── learningCurriculum.js  # Module curricula with external URLs
+│   ├── mockData.js         # Fallback/demo data
+│   └── router.jsx          # Client-side routing
+├── public/                 # Static assets and hero images
+├── scripts/                # Admin/student bootstrap scripts
+├── server/
+│   └── src/
+│       ├── config/         # DB connection
+│       ├── middleware/      # Auth, error handling
+│       ├── routes/         # Express route handlers
+│       └── services/       # Business logic services
+├── src/
+│   ├── index.css           # Global design tokens
+│   ├── landing.css         # Landing page styles
+│   └── main.jsx            # React entry point
+├── .env.example            # Environment variable template
+├── docker-compose.yml      # Multi-service Docker setup
+└── vite.config.js          # Vite bundler config
+```
+
+---
+
+## 👥 Contributors
+
+| Member | Contribution |
+|---|---|
+| **Ahnaf** | Platform architecture, student dashboard, learning resources, job matching, AI integration, admin panel |
+| **Shefin-z (Member 05)** | Student connections, private inbox messaging, community interactions, reporting, and administrator moderation |
+
+---
+
+## 📄 License
+
+This project is open source under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+  <p>Built with ❤️ at <strong>United International University</strong>, Bangladesh</p>
+  <p>
+    <a href="https://github.com/iamahnaf/Career_Cube">GitHub</a> ·
+    <a href="https://github.com/iamahnaf/Career_Cube/issues">Report Bug</a> ·
+    <a href="https://github.com/iamahnaf/Career_Cube/issues">Request Feature</a>
+  </p>
+</div>
