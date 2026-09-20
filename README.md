@@ -24,15 +24,15 @@ CareerCube is a full-stack, AI-enhanced career platform built specifically for u
 ## 📸 Screenshots
 
 ### 🏠 Landing Page
-![Landing Page](public/screenshot-landing.jpg)
+![Landing Page](public/screenshot-landing.png)
 *"Your career. Finally in focus." — Clean, minimal hero with real grad photo, feature cards, and one-click workspace creation.*
 
 ### 🎓 Student Dashboard
-![Student Dashboard](public/screenshot-dashboard.jpg)
+![Student Dashboard](public/screenshot-dashboard.png)
 *Personalized workspace with career readiness score, real progress summary, live job opportunities, and skill verification.*
 
 ### 🔐 Sign In
-![Sign In](public/screenshot-login.jpg)
+![Sign In](public/screenshot-login.png)
 *Split-screen auth — one sign-in for students, direct link to the admin portal. Email verification built in.*
 
 ---
