@@ -1,7 +1,8 @@
 import { Link } from "../lib/router";
 import {
-  ArrowDown, ArrowUpRight, BookOpen, Check, CheckCheck, Compass, FileText, Flag,
-  GraduationCap, Layers3, MessageCircle, Plus, ShieldCheck, Target, TrendingUp, Users,
+  ArrowDown, ArrowUpRight, BookOpen, BriefcaseBusiness, Check, CheckCheck, Compass,
+  FileText, Flag, GraduationCap, MessageCircle, Plus, ShieldCheck,
+  Target, TrendingUp, Users,
 } from "lucide-react";
 import { PublicFooter, PublicHeader } from "./public/PublicChrome";
 import "../src/landing.css";
@@ -31,8 +32,20 @@ export default function LandingPage() {
       <main id="landing-content">
         <section className="landing-hero landing-container" aria-labelledby="landing-title">
           <div className="landing-hero-copy">
+            <div className="landing-premium-copy">
+              <h1 id="landing-title">Your career.<br /><em>Finally</em> in focus.</h1>
+              <p className="landing-hero-description">See the skills to build, opportunities worth chasing and people who can help you get there—all in one personal career space.</p>
+              <div className="landing-hero-actions">
+                <Link to="/login/student?mode=register" className="landing-button landing-button-primary">Create your free workspace <ArrowUpRight size={18} /></Link>
+                <a href="#journey" className="landing-text-link">Explore the journey <ArrowDown size={16} /></a>
+              </div>
+              <div className="landing-hero-proof">
+                <div className="landing-proof-avatars" aria-hidden="true"><span>SA</span><span>MI</span><span>NK</span><span>+</span></div>
+                <p><strong>Built for real student journeys.</strong><span>From campus confidence to your next big move.</span></p>
+              </div>
+            </div>
             <p className="landing-eyebrow"><span />Career growth, made tangible</p>
-            <h1 id="landing-title">Your ambition.<br />A clearer<br /><em>way forward.</em></h1>
+            <h1 className="landing-legacy-hero-title" aria-hidden="true">Your ambition.<br />A clearer<br /><em>way forward.</em></h1>
             <p className="landing-hero-description">There’s a world beyond your degree. Discover your strengths, find your people, and turn what’s next into something real.</p>
             <div className="landing-hero-actions">
               <Link to="/login/student?mode=register" className="landing-button landing-button-primary">Start your workspace <ArrowUpRight size={18} /></Link>
@@ -41,6 +54,11 @@ export default function LandingPage() {
             <p className="landing-hero-note"><ShieldCheck size={15} /> Free to join. Built around you.</p>
           </div>
           <div className="landing-hero-art">
+            <div className="landing-premium-art">
+              <figure className="landing-photo-frame">
+                <img className="landing-graduation-photo" src="/careercube-hero-graduation-light.jpg" width="1920" height="1280" fetchPriority="high" decoding="async" alt="Five university graduates sitting together on the campus lawn in their graduation gowns" />
+              </figure>
+            </div>
             <div className="landing-photo-heading"><span>THE NEXT CHAPTER</span><span>BEGINS WITH YOU <ArrowUpRight size={13} /></span></div>
             <figure className="landing-photo-frame">
               <img className="landing-graduation-photo" src="/careercube-hero-graduation-light.jpg" width="1920" height="1280" fetchPriority="high" decoding="async" alt="Five university graduates sitting together on the campus lawn in their graduation gowns" />
@@ -52,10 +70,10 @@ export default function LandingPage() {
         </section>
 
         <div className="landing-principles landing-container" aria-label="What CareerCube brings together">
-          <p>One workspace.<br /><strong>Every next step.</strong></p>
-          <span><Target size={20} strokeWidth={1.5} />Discover your direction</span>
-          <span><Layers3 size={20} strokeWidth={1.5} />Build skills that matter</span>
-          <span><Users size={20} strokeWidth={1.5} />Grow alongside others</span>
+          <p><span>ONE CAREER SPACE</span><strong>Made for your<br />next move.</strong></p>
+          <div><span className="landing-principle-icon"><Target size={19} /></span><p><strong>Get direction</strong><small>Turn your profile into a practical focus.</small></p></div>
+          <div><span className="landing-principle-icon"><BriefcaseBusiness size={19} /></span><p><strong>Find real opportunities</strong><small>See roles that fit where you are heading.</small></p></div>
+          <div><span className="landing-principle-icon"><Users size={19} /></span><p><strong>Move with people</strong><small>Connect with students on a similar path.</small></p></div>
         </div>
 
         <section id="platform" className="landing-platform landing-container landing-section" aria-labelledby="platform-title">

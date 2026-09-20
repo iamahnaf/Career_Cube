@@ -66,6 +66,15 @@ CREATE TABLE IF NOT EXISTS student_profiles (
   CONSTRAINT fk_profiles_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS student_resumes (
+  user_id BIGINT UNSIGNED PRIMARY KEY,
+  resume_data JSON NOT NULL,
+  photo_data LONGTEXT NULL,
+  photo_name VARCHAR(255) NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_student_resumes_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS skills (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(120) NOT NULL UNIQUE,
@@ -147,6 +156,38 @@ ALTER TABLE jobs
 
 ALTER TABLE jobs
   ADD COLUMN IF NOT EXISTS source_label VARCHAR(120) NULL AFTER external_apply_url;
+
+CREATE TABLE IF NOT EXISTS external_job_listings (
+  source VARCHAR(40) NOT NULL,
+  external_id VARCHAR(255) NOT NULL,
+  title VARCHAR(300) NOT NULL,
+  company VARCHAR(300) NOT NULL,
+  company_website VARCHAR(1000) NULL,
+  description LONGTEXT NULL,
+  requirements LONGTEXT NULL,
+  responsibilities LONGTEXT NULL,
+  category VARCHAR(160) NULL,
+  location VARCHAR(220) NULL,
+  workplace_type VARCHAR(40) NULL,
+  employment_type VARCHAR(80) NULL,
+  salary_min DECIMAL(12,2) NULL,
+  salary_max DECIMAL(12,2) NULL,
+  currency CHAR(3) NULL,
+  application_url VARCHAR(1000) NOT NULL,
+  posted_at DATETIME NULL,
+  fetched_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (source, external_id),
+  INDEX idx_external_job_listings_source_fetched (source, fetched_at),
+  INDEX idx_external_job_listings_posted (posted_at)
+);
+
+CREATE TABLE IF NOT EXISTS external_job_sync_state (
+  source VARCHAR(40) NOT NULL PRIMARY KEY,
+  last_attempt_at DATETIME NULL,
+  last_success_at DATETIME NULL,
+  last_error_code VARCHAR(120) NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 CREATE TABLE IF NOT EXISTS job_skills (
   job_id BIGINT UNSIGNED NOT NULL,
