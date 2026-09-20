@@ -90,7 +90,58 @@ router.post("/assessments/:id/submit", authenticate, async (req, res, next) => {
 
 router.get("/resources", authenticate, async (req, res, next) => {
   try {
-    res.json(await query("SELECT * FROM learning_resources WHERE status='published' ORDER BY featured DESC, created_at DESC"));
+    const rows = await query(
+      `SELECT lr.id, lr.title, lr.description, lr.category, lr.difficulty, lr.resource_type,
+              lr.resource_url, lr.thumbnail_url, lr.estimated_minutes, lr.download_count,
+              lr.featured, lr.status, lr.created_at,
+              COALESCE(rp.progress_percentage, 0) AS progress_percentage,
+              rp.completed_at
+       FROM learning_resources lr
+       LEFT JOIN resource_progress rp ON rp.resource_id = lr.id AND rp.user_id = ?
+       WHERE lr.status = 'published'
+       ORDER BY lr.featured DESC, lr.id ASC`,
+      [req.user.id],
+    );
+    res.json(rows.map((row) => ({
+      ...row,
+      progress_percentage: Math.round(Number(row.progress_percentage || 0)),
+    })));
+  } catch (error) { next(error); }
+});
+
+router.post("/resources/:id/progress", authenticate, async (req, res, next) => {
+  try {
+    const resourceId = Number(req.params.id);
+    const progressRaw = Number(req.body.progressPercentage ?? 0);
+    const progressPercentage = Math.min(100, Math.max(0, Math.round(progressRaw)));
+    const isCompleted = progressPercentage >= 100;
+
+    const [resource] = await query(
+      "SELECT id, title, category FROM learning_resources WHERE id=? AND status='published'",
+      [resourceId],
+    );
+    if (!resource) return res.status(404).json({ error: "Learning resource not found" });
+
+    await query(
+      `INSERT INTO resource_progress (user_id, resource_id, progress_percentage, completed_at, updated_at)
+       VALUES (?, ?, ?, ?, NOW())
+       ON DUPLICATE KEY UPDATE
+         progress_percentage = VALUES(progress_percentage),
+         completed_at = CASE
+           WHEN VALUES(progress_percentage) >= 100 AND completed_at IS NULL THEN NOW()
+           WHEN VALUES(progress_percentage) >= 100 THEN completed_at
+           ELSE NULL
+         END,
+         updated_at = NOW()`,
+      [req.user.id, resourceId, progressPercentage, isCompleted ? new Date() : null],
+    );
+
+    res.json({
+      message: isCompleted ? `Completed “${resource.title}”! Great job.` : `Progress saved (${progressPercentage}%).`,
+      resourceId,
+      progressPercentage,
+      completed: isCompleted,
+    });
   } catch (error) { next(error); }
 });
 

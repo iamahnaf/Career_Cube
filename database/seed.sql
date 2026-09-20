@@ -22,10 +22,13 @@ ON DUPLICATE KEY UPDATE category=VALUES(category);
 -- the real assessment catalogue and question bank from the control center.
 
 INSERT INTO learning_resources (title, description, category, difficulty, resource_type, resource_url, estimated_minutes, featured, status) VALUES
-  ('SQL for Product Decisions', 'Use SQL to answer practical product questions.', 'Data & Analytics', 'Intermediate', 'course', '/resources/sql-product', 160, TRUE, 'published'),
-  ('Write an ATS-ready Resume', 'A practical guide to a recruiter-readable resume.', 'Career Toolkit', 'Beginner', 'course', '/resources/ats-resume', 55, TRUE, 'published'),
-  ('Interview Stories that Stick', 'Build a reusable bank of structured stories.', 'Communication', 'Intermediate', 'course', '/resources/interview-stories', 80, FALSE, 'published'),
-  ('Product Analytics Field Guide', 'A downloadable analytics reference.', 'Data & Analytics', 'Advanced', 'pdf', '/downloads/product-analytics.pdf', 45, TRUE, 'published');
+  ('SQL for Product Decisions', 'Use SQL to answer practical product questions, evaluate user metrics, and measure cohort retention.', 'Data & Analytics', 'Intermediate', 'course', 'https://mode.com/sql-tutorial', 160, TRUE, 'published'),
+  ('Write an ATS-ready Resume', 'A practical guide to structuring a recruiter-readable resume with quantifiable impacts and clean formatting.', 'Career Toolkit', 'Beginner', 'course', 'https://www.coursera.org', 55, TRUE, 'published'),
+  ('Interview Stories that Stick', 'Build a reusable bank of structured STAR stories that highlight your leadership and problem-solving skills.', 'Communication', 'Intermediate', 'course', 'https://hbr.org', 80, FALSE, 'published'),
+  ('Product Analytics Field Guide', 'A downloadable playbook and cheat-sheet with core formulas, metrics definitions, and funnel models.', 'Data & Analytics', 'Advanced', 'pdf', '/downloads/product-analytics.pdf', 45, TRUE, 'published'),
+  ('React Patterns for Real Teams', 'Architect maintainable components, manage server state cleanly, and avoid common performance traps.', 'Development', 'Intermediate', 'course', 'https://react.dev/learn', 190, TRUE, 'published'),
+  ('Negotiating Your First Offer', 'A strategic guide to base salary benchmarks, equity, benefits, and navigating compensation discussions professionally.', 'Career Toolkit', 'Beginner', 'course', 'https://www.coursera.org', 35, FALSE, 'published')
+ON DUPLICATE KEY UPDATE title=VALUES(title), description=VALUES(description), category=VALUES(category), difficulty=VALUES(difficulty);
 
 -- Events are intentionally not seeded. Administrators create and publish real
 -- events from the control center; only those events are shown to students.

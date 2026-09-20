@@ -62,6 +62,7 @@ import DashboardShell from "../DashboardShell";
 import Toast from "../Toast";
 import { CommunityPage, CommunityPostCooldown, CommunityPostModal } from "./CommunityExperience";
 import ConnectionsPage from "./ConnectionsExperience";
+import LearningResourceModal from "./LearningResourceModal";
 import {
   achievements as seedAchievements,
   resources,
@@ -325,6 +326,10 @@ export default function StudentWorkspace() {
   const [adaptiveAssessment, setAdaptiveAssessment] = useState(null);
   const [adaptiveLoading, setAdaptiveLoading] = useState(true);
   const [adaptiveError, setAdaptiveError] = useState("");
+  const [learningResources, setLearningResources] = useState([]);
+  const [learningLoading, setLearningLoading] = useState(true);
+  const [learningError, setLearningError] = useState("");
+  const [learningSaving, setLearningSaving] = useState(false);
   const [overviewData, setOverviewData] = useState(null);
   const [overviewLoading, setOverviewLoading] = useState(true);
   const [overviewError, setOverviewError] = useState("");
@@ -531,6 +536,70 @@ export default function StudentWorkspace() {
       document.removeEventListener("visibilitychange", refreshWhenVisible);
     };
   }, []);
+
+  const loadLearningResources = async ({ silent = false } = {}) => {
+    if (!silent) {
+      setLearningLoading(true);
+      setLearningError("");
+    }
+    try {
+      const records = await apiRequest("/resources");
+      const mapped = (Array.isArray(records) ? records : []).map((r, index) => {
+        const fallback = resources.find((m) => Number(m.id) === Number(r.id)) || {};
+        return {
+          ...fallback,
+          ...r,
+          progress_percentage: Number(r.progress_percentage ?? fallback.progress ?? 0),
+          time: r.estimated_minutes ? `${r.estimated_minutes} min` : fallback.time || "45m",
+          level: r.difficulty || fallback.level || "Intermediate",
+          tone: fallback.tone || (index % 2 === 0 ? "bg-cobalt" : "bg-jade"),
+          icon: fallback.icon || "📖",
+        };
+      });
+      setLearningResources(mapped);
+      setLearningError("");
+    } catch (error) {
+      if (!silent) setLearningError(error.message);
+    } finally {
+      if (!silent) setLearningLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadLearningResources();
+  }, []);
+
+  const updateResourceProgress = async (resourceId, progressPercentage) => {
+    setLearningSaving(true);
+    try {
+      const result = await apiRequest(`/resources/${resourceId}/progress`, {
+        method: "POST",
+        body: JSON.stringify({ progressPercentage }),
+      });
+      setLearningResources((current) =>
+        current.map((item) =>
+          Number(item.id) === Number(resourceId)
+            ? { ...item, progress_percentage: result.progressPercentage }
+            : item
+        )
+      );
+      if (modal?.type === "learning-resource" && Number(modal.resource?.id) === Number(resourceId)) {
+        setModal((current) => ({
+          ...current,
+          resource: {
+            ...current.resource,
+            progress_percentage: result.progressPercentage,
+          },
+        }));
+      }
+      notify(result.message);
+      await loadOverview({ silent: true });
+    } catch (error) {
+      notify(error.message);
+    } finally {
+      setLearningSaving(false);
+    }
+  };
 
   const loadEvents = async ({ silent = false } = {}) => {
     if (!silent) {
@@ -917,7 +986,16 @@ export default function StudentWorkspace() {
           />
         )}
         {active === "analytics" && <AnalyticsPage notify={notify} data={overviewData} onNavigate={setActive} />}
-        {active === "learning" && <LearningPage notify={notify} />}
+        {active === "learning" && (
+          <LearningPage
+            notify={notify}
+            resources={learningResources}
+            loading={learningLoading}
+            error={learningError}
+            onRetry={loadLearningResources}
+            onOpenResource={(res) => setModal({ type: "learning-resource", resource: res })}
+          />
+        )}
         {active === "community" && <CommunityPage posts={posts} setPosts={setPosts} loading={communityLoading} error={communityError} onRetry={loadCommunity} notify={notify} viewer={currentUser} onNewPost={() => setModal({ type: "post" })} postingStatus={postingStatus} />}
         {active === "connections" && <ConnectionsPage search={studentSearch} setSearch={setStudentSearch} currentUser={currentUser} notify={notify} />}
         {active === "events" && <EventsPage events={events} loading={eventsLoading} error={eventsError} onRetry={loadEvents} reservingEventId={reservingEventId} cancellingEventId={cancellingEventId} onRegister={reserveEvent} onCancelReservation={cancelEventReservation} />}
@@ -925,6 +1003,14 @@ export default function StudentWorkspace() {
         {active === "profile" && <ProfilePage notify={notify} user={currentUser} onSave={saveProfile} />}
       </DashboardShell>
       <Toast message={toast} onClose={() => setToast("")} />
+      {modal?.type === "learning-resource" && (
+        <LearningResourceModal
+          resource={modal.resource}
+          onClose={() => setModal(null)}
+          onUpdateProgress={updateResourceProgress}
+          saving={learningSaving}
+        />
+      )}
       {modal?.type === "job" && (
         <JobModal
           job={modal.job}
@@ -1812,23 +1898,173 @@ function AnalyticsPage({ notify, data, onNavigate }) {
   );
 }
 
-function LearningPage({ notify }) {
+function LearningPage({ notify, resources: list = [], loading, error, onRetry, onOpenResource }) {
   const [category, setCategory] = useState("All resources");
-  const filtered = category === "All resources" ? resources : resources.filter((item) => item.category.includes(category));
+  const [bookmarkedIds, setBookmarkedIds] = useState(() => {
+    try {
+      return new Set(JSON.parse(localStorage.getItem("careercube_bookmarked_resources") || "[]"));
+    } catch {
+      return new Set();
+    }
+  });
+
+  const toggleBookmark = (id) => {
+    setBookmarkedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      try {
+        localStorage.setItem("careercube_bookmarked_resources", JSON.stringify([...next]));
+      } catch {}
+      return next;
+    });
+    notify(bookmarkedIds.has(id) ? "Resource removed from saved bookmarks." : "Resource saved to bookmarks.");
+  };
+
+  const currentResources = list.length ? list : resources;
+  const filtered = category === "All resources"
+    ? currentResources
+    : currentResources.filter((item) => (item.category || "").toLowerCase().includes(category.toLowerCase()));
+
+  // Active or highest priority in-progress resource for hero recommendation
+  const heroResource = currentResources.find((r) => Number(r.progress_percentage || 0) > 0 && Number(r.progress_percentage || 0) < 100)
+    || currentResources[0]
+    || {};
+
+  const heroPct = Math.round(Number(heroResource.progress_percentage || 0));
+
   return (
     <div className="space-y-5">
-      <section className="panel grid overflow-hidden md:grid-cols-[1fr_.6fr]">
-        <div className="p-6 sm:p-8"><span className="eyebrow"><Target size={13} /> Personalized next step</span><h2 className="mt-3 text-2xl font-extrabold tracking-[-0.04em]">Finish SQL for Product Decisions</h2><p className="mt-2 max-w-lg text-sm leading-6 text-muted">Completing this course supports three of your top five job matches and closes your biggest analytics gap.</p><div className="mt-5 flex items-center gap-4"><button onClick={() => notify("Course resumed at lesson 7.")} className="btn-accent"><Play size={15} fill="currentColor" /> Continue learning</button><span className="text-xs font-bold text-muted">32 min left</span></div></div>
-        <div className="relative hidden place-items-center bg-[#DED2BE] md:grid"><div className="grid h-36 w-36 place-items-center rounded-full border-[20px] border-cobalt bg-white/50"><span className="text-center"><b className="block text-2xl">68%</b><small className="text-[10px] font-bold text-muted">complete</small></span></div></div>
-      </section>
-      <div className="flex flex-wrap gap-2">{["All resources", "Career Toolkit", "Data & Analytics", "Development", "Communication"].map((item) => <button key={item} onClick={() => setCategory(item)} className={`min-h-9 rounded-xl px-3 text-xs font-bold ${category === item ? "bg-ink text-white" : "bg-white/60 text-muted"}`}>{item}</button>)}</div>
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filtered.map((resource) => (
-          <article className="panel overflow-hidden" key={resource.id}>
-            <div className={`flex h-32 items-end justify-between p-5 text-white ${resource.tone}`}><span className="font-display text-4xl italic">{resource.icon}</span><button className="grid h-9 w-9 place-items-center rounded-xl bg-white/15 backdrop-blur-md"><Bookmark size={16} /></button></div>
-            <div className="p-5"><p className="text-[10px] font-extrabold uppercase tracking-[.12em] text-coral">{resource.category}</p><h3 className="mt-2 text-base font-extrabold">{resource.title}</h3><div className="mt-3 flex gap-3 text-[11px] text-muted"><span>{resource.level}</span><span>·</span><span>{resource.time}</span></div>{resource.progress > 0 && <div className="mt-4"><div className="mb-1.5 flex justify-between text-[10px] font-bold text-muted"><span>Progress</span><span>{resource.progress}%</span></div><div className="progress-track"><div className="h-full rounded-full bg-jade" style={{ width: `${resource.progress}%` }} /></div></div>}<button onClick={() => notify(resource.category.includes("PDF") ? "Resource downloaded." : "Learning resource opened.")} className="btn-secondary mt-5 w-full">{resource.category.includes("PDF") ? <><Download size={15} /> Download resource</> : <><Play size={15} /> {resource.progress ? "Continue" : "Start learning"}</>}</button></div>
-          </article>
+      {/* Dynamic Personalized Next Step Banner */}
+      {heroResource.id && (
+        <section className="panel grid overflow-hidden md:grid-cols-[1fr_.6fr]">
+          <div className="p-6 sm:p-8">
+            <span className="eyebrow"><Target size={13} /> Personalized next step</span>
+            <h2 className="mt-3 text-2xl font-extrabold tracking-[-0.04em]">
+              {heroPct > 0 ? `Finish ${heroResource.title}` : `Start ${heroResource.title}`}
+            </h2>
+            <p className="mt-2 max-w-lg text-sm leading-6 text-muted">
+              {heroResource.description || "Completing this resource supports your target roles and verifies your practical knowledge."}
+            </p>
+            <div className="mt-5 flex items-center gap-4">
+              <button
+                onClick={() => onOpenResource?.(heroResource)}
+                className="btn-accent"
+              >
+                <Play size={15} fill="currentColor" /> {heroPct > 0 ? "Continue learning" : "Start learning"}
+              </button>
+              <span className="text-xs font-bold text-muted">
+                {heroResource.time || "30 min left"}
+              </span>
+            </div>
+          </div>
+          <div className="relative hidden place-items-center bg-[#DED2BE] md:grid">
+            <div className="grid h-36 w-36 place-items-center rounded-full border-[18px] border-cobalt bg-white/60 shadow-inner">
+              <span className="text-center">
+                <b className="block text-2xl font-black">{heroPct}%</b>
+                <small className="text-[10px] font-bold text-muted uppercase tracking-wider">
+                  {heroPct >= 100 ? "complete" : heroPct > 0 ? "in progress" : "ready"}
+                </small>
+              </span>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap gap-2">
+        {["All resources", "Career Toolkit", "Data & Analytics", "Development", "Communication"].map((item) => (
+          <button
+            key={item}
+            onClick={() => setCategory(item)}
+            className={`min-h-9 rounded-xl px-3 text-xs font-bold transition ${
+              category === item ? "bg-ink text-white" : "bg-white/60 text-muted hover:bg-white"
+            }`}
+          >
+            {item}
+          </button>
         ))}
+      </div>
+
+      {/* Error / Loading State */}
+      {loading && !list.length && (
+        <div className="panel p-10 text-center text-xs text-muted">
+          Loading learning library...
+        </div>
+      )}
+
+      {/* Resources Grid */}
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {filtered.map((resource) => {
+          const pct = Math.round(Number(resource.progress_percentage || 0));
+          const isDone = pct >= 100;
+          const isBookmarked = bookmarkedIds.has(resource.id);
+          const isPdf = (resource.category || "").toLowerCase().includes("pdf") || resource.resource_type === "pdf";
+
+          return (
+            <article className="panel overflow-hidden flex flex-col justify-between" key={resource.id}>
+              <div>
+                <div className={`flex h-32 items-end justify-between p-5 text-white ${resource.tone || "bg-cobalt"}`}>
+                  <span className="font-display text-4xl italic">{resource.icon || "📖"}</span>
+                  <button
+                    onClick={() => toggleBookmark(resource.id)}
+                    aria-label="Bookmark resource"
+                    className={`grid h-9 w-9 place-items-center rounded-xl backdrop-blur-md transition ${
+                      isBookmarked ? "bg-white text-ink shadow-sm" : "bg-white/15 text-white hover:bg-white/25"
+                    }`}
+                  >
+                    <Bookmark size={16} fill={isBookmarked ? "currentColor" : "none"} />
+                  </button>
+                </div>
+                <div className="p-5">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[.12em] text-coral">
+                    {resource.category}
+                  </p>
+                  <h3 className="mt-2 text-base font-extrabold leading-snug">{resource.title}</h3>
+                  <div className="mt-3 flex gap-3 text-[11px] text-muted font-medium">
+                    <span>{resource.level || resource.difficulty}</span>
+                    <span>·</span>
+                    <span>{resource.time}</span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="mt-4">
+                    <div className="mb-1.5 flex justify-between text-[10px] font-bold text-muted">
+                      <span>Progress</span>
+                      <span className={isDone ? "text-jade" : "text-ink"}>{pct}%</span>
+                    </div>
+                    <div className="progress-track">
+                      <div
+                        className={`h-full rounded-full transition-all duration-300 ${isDone ? "bg-jade" : "bg-cobalt"}`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-5 pt-0">
+                <button
+                  onClick={() => onOpenResource?.(resource)}
+                  className={`mt-2 w-full flex items-center justify-center gap-2 ${
+                    isDone ? "btn-secondary" : "btn-secondary hover:border-cobalt"
+                  }`}
+                >
+                  {isPdf ? (
+                    <>
+                      <Download size={15} /> {isDone ? "View / Download again" : "Download resource"}
+                    </>
+                  ) : (
+                    <>
+                      <Play size={15} fill={pct > 0 ? "currentColor" : "none"} />
+                      {isDone ? "Review resource" : pct > 0 ? "Continue" : "Start learning"}
+                    </>
+                  )}
+                </button>
+              </div>
+            </article>
+          );
+        })}
       </section>
     </div>
   );

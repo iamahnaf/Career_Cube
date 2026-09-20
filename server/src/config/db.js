@@ -18,8 +18,8 @@ if (isProduction) {
 const connectionOptions = {
   host: databaseEnv.host || "127.0.0.1",
   port: Number(databaseEnv.port || 3306),
-  user: databaseEnv.user || "careerforge",
-  password: databaseEnv.password || "careerforge",
+  user: databaseEnv.user ?? "careerforge",
+  password: databaseEnv.password ?? "careerforge",
   database: databaseEnv.database || "careerforge",
   waitForConnections: true,
   connectionLimit: 10,
