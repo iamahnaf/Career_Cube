@@ -9,6 +9,10 @@
   ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white&style=flat-square)
   ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white&style=flat-square)
   ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
+  <br/>
+
+  [![🚀 Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-careerforge--ai.vercel.app-4F46E5?style=for-the-badge)](https://careerforge-ai-rose-eight.vercel.app/)
 </div>
 
 ---
@@ -19,7 +23,17 @@ CareerCube is a full-stack, AI-enhanced career platform built specifically for u
 
 ## 📸 Screenshots
 
-<!-- screenshots will go here -->
+### 🏠 Landing Page
+![Landing Page](public/screenshot-landing.jpg)
+*"Your career. Finally in focus." — Clean, minimal hero with real grad photo, feature cards, and one-click workspace creation.*
+
+### 🎓 Student Dashboard
+![Student Dashboard](public/screenshot-dashboard.jpg)
+*Personalized workspace with career readiness score, real progress summary, live job opportunities, and skill verification.*
+
+### 🔐 Sign In
+![Sign In](public/screenshot-login.jpg)
+*Split-screen auth — one sign-in for students, direct link to the admin portal. Email verification built in.*
 
 ---
 
