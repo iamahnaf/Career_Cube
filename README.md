@@ -19,29 +19,7 @@ CareerCube is a full-stack, AI-enhanced career platform built specifically for u
 
 ## 📸 Screenshots
 
-### Student Dashboard
-![Student Dashboard](public/readme-student-dashboard.jpg)
-*Career readiness score, matched jobs, application tracking and learning progress at a glance.*
-
-### Learning Resources
-![Learning Resources](public/readme-learning-resources.jpg)
-*12 curated courses and guides linking to real YouTube tutorials and authoritative blogs, with progress tracking.*
-
-### Admin Panel
-![Admin Dashboard](public/readme-admin-dashboard.jpg)
-*Full administrative oversight — user management, assessments, job publishing, application funnel, and analytics.*
-
-### Authentication
-<table>
-  <tr>
-    <td><img src="public/careercube-auth-student-dark-v1.jpg" alt="Student Login" /></td>
-    <td><img src="public/careercube-auth-admin-dark-v1.jpg" alt="Admin Login" /></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Student sign-in</em></td>
-    <td align="center"><em>Admin sign-in</em></td>
-  </tr>
-</table>
+<!-- screenshots will go here -->
 
 ---
 
